@@ -85,6 +85,37 @@ if (file_exists('/etc/dmr2nxdn')) {
 </table>
 <br />
 
+<?php
+$sensordatafile = '/tmp/sensor_data.txt';
+//$check_sensordata_file = file_exists($sensordatafile);
+$check_sensordata_file = is_readable($sensordatafile);
+if ($check_sensordata_file) {
+  if (time() < (filemtime($sensordatafile) + 120)) {
+    $sensordataJSONstring = file_get_contents($sensordatafile);
+    $sensordataData = json_decode($sensordataJSONstring, true);
+  } else {
+    $sensordataData = array();
+  }
+}
+else
+{
+  $sensordataData = array();
+}
+?>
+
+<table>
+  <tr><th colspan="2"><?php echo "Live Data";?></th></tr>
+  <tr><th>TX Temp</th><td><?php if (array_key_exists('dmr-tx-temp', $sensordataData)) { echo $sensordataData['dmr-tx-temp']; echo 'C'; } else { echo '--'; } ?></td></tr>
+  <tr><th>PSU Įtampa</th><td><?php if (array_key_exists('dmr-tx-volt', $sensordataData)) { echo $sensordataData['dmr-tx-volt']; echo 'V'; } else { echo '--'; } ?></td></tr>
+  <tr><th>PSU Srovė</th><td><?php if (array_key_exists('dmr-tx-curr', $sensordataData)) { echo $sensordataData['dmr-tx-curr']; echo 'A'; } else { echo '--'; } ?></td></tr>
+  <tr><th>PSU Galia</th><td><?php if (array_key_exists('dmr-tx-pwr', $sensordataData)) { echo $sensordataData['dmr-tx-pwr']; echo 'W'; } else { echo '--'; } ?></td></tr>
+  <tr><th>PSU Temp</th><td><?php if (array_key_exists('dmr-psu-temp', $sensordataData)) { echo $sensordataData['dmr-psu-temp']; echo 'C'; } else { echo '--'; } ?></td></tr>
+  <tr><th>Patalpos Temp</th><td><?php if (array_key_exists('patalpos-temp', $sensordataData)) { echo $sensordataData['patalpos-temp']; echo 'C'; } else { echo '--'; } ?></td></tr>
+  <tr><th>Patalpos drėgmė</th><td><?php if (array_key_exists('patalpos-humd', $sensordataData)) { echo $sensordataData['patalpos-humd']; echo '%'; } else { echo '--'; } ?></td></tr>
+  <tr><th>Lauko Temp</th><td><?php if (array_key_exists('lauko-temp', $sensordataData)) { echo $sensordataData['lauko-temp']; echo 'C'; } else { echo '--'; } ?></td></tr>
+</table>
+<br />
+
 <table>
 <tr><th colspan="2"><?php echo $lang['radio_info'];?></th></tr>
 <tr><th>Trx</th><?php

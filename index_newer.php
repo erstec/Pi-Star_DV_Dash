@@ -247,11 +247,10 @@ if (file_exists('/etc/dstar-radio.mmdvmhost')) {
 	echo '<div id="localTxs">'."\n";
 	include 'mmdvmhost/localtx.php';				// MMDVMDash Local Trasmissions
 	echo '</div>'."\n";
-	
 	echo '<div id="note">' . "\n";
-	include 'local_note.php';                               // MMDVMDash Local Note
-	echo "</div>\n";
-	
+        include 'local_note.php';                               // MMDVMDash Local Note
+        echo "</div>\n";
+
 	// If POCSAG is enabled, show the information pannel
 	$testMMDVModePOCSAG = getConfigItem("POCSAG Network", "Enable", $mmdvmconfigfile);
 	if ( $testMMDVModePOCSAG == 1 ) {
